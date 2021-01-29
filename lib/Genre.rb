@@ -1,5 +1,5 @@
 class Genre
-    extend Findable::ClassMethods 
+    extend Concerns::Findable  
     include Findable::InstanceMethods
 
     attr_accessor :name

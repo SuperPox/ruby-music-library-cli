@@ -1,6 +1,6 @@
 require 'pry'
 class Artist
-    extend Findable::ClassMethods 
+    extend Concerns::Findable 
     include Findable::InstanceMethods
 
     attr_accessor :name, :artist, :genre

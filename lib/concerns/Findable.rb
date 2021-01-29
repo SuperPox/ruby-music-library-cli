@@ -1,5 +1,5 @@
-module Findable
-    module ClassMethods
+module Concerns
+    module Findable
         def destroy_all
             self.all.clear
         end    
