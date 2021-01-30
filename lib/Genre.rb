@@ -1,12 +1,11 @@
 class Genre
     extend Concerns::Findable  
-    include Findable::InstanceMethods
+    include Concerns::InstanceMethods
 
     attr_accessor :name
     @@all = []
     @songs = []
     
-
     def initialize(name)
         @name = name
         @@all << self
