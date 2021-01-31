@@ -23,12 +23,16 @@ class MusicLibraryController
             input = gets.strip 
             if input == 'list songs'
                 self.list_songs
-            elsif input == 'list artists'
+            elsif input == 'list artist'
+                self.list_songs_by_artist
+            elsif input == "list artists"
                 self.list_artists
             elsif input == 'list genres'
-                self.list_genres
+                self.list_songs_by_genre
+            elsif input == 'list genre'
+                self.list_songs_by_genre
             elsif input == 'play song'
-                self.list_songs #fake play right???????????
+                self.play_song #fake play right???????????
             elsif input == 'secret'
                 puts "yey you found the secret!"
             end
@@ -42,18 +46,16 @@ class MusicLibraryController
         end
     end
 
-    #prints all artists in the music library in a numbered list (alphabetized by artist name)
-    def list_artists 
-        arr = Artist.all.sort {|i, x| i.name <=> x.name}
-        #binding.pry
-        arr.each_with_index do |i, index| 
-            puts "#{index+1}. #{i.name}" 
+    def list_artists
+        Artist.all.sort{ |a, b| a.name <=> b.name }.each.with_index(1) do |a, i|
+          puts "#{i}. #{a.name}"
         end
-    end
+      end
+    
 
     def list_genres
         arr = Genre.all.sort {|i, x| i.name <=> x.name }
-
+        
         arr.each_with_index do |i, index| 
             puts "#{index+1}. #{i.name}" 
         end
@@ -61,16 +63,33 @@ class MusicLibraryController
 
     def list_songs_by_artist
         puts "Please enter the name of an artist:"
-        Artist.songs
+        user = gets #.strip    
+        if Artist.all.each {|i| i.name == user}
+            self.list_songs
+        else
+            puts "Please enter the name of an artist:"
+        end
     end
 
     def list_songs_by_genre
-        puts "what genre sucka?"
-        Genre.songs
+        puts "Please enter the name of a genre:"
+        user = gets
+        if Genre.all.each {|i| i.name == user}
+            self.list_genres
+         else
+            puts "Please enter the name of a genre:"
+        end
     end
 
     def play_song
-        puts "pick a number"
+        puts "Which song number would you like to play?"
+        list_songs
+        selection = gets.chomp.to_i
+        sortedSongs = Song.all.sort_by { |i| i.name }
+        if selection > 0 && selection < sortedSongs.length + 1
+            choice = sortedSongs[selection - 1]
+            puts "Playing #{choice.name} by #{choice.artist}"
+        end
     end
 end
 
